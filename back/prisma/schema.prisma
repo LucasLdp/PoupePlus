@@ -1,0 +1,42 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["omitApi"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String    @id @default(uuid())
+  name        String
+  email       String    @unique
+  password    String
+  totalAmount Decimal?
+  expenses    Expense[]
+  balance     Balance[]
+
+  @@map("users")
+}
+
+model Balance {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  total     Float
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("balances")
+}
+
+model Expense {
+  id          String   @id @default(uuid())
+  amount      Float
+  description String
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+
+  @@map("expenses")
+}
