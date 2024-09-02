@@ -34,14 +34,6 @@ export class ExpenseService {
 	};
 
 	createExpense = async (data: createExpenseDTO) => {
-		const existingExpense = await this.expenseRepository.getBy({
-			description: data.description,
-			userId: data.userId,
-		});
-		if (existingExpense) {
-			throw new BadRequest("Essa despesa já existe para este usuário");
-		}
-
 		await this.expenseRepository.create(data);
 		return { message: "Despesa criada com sucesso" };
 	};
