@@ -1,11 +1,44 @@
+import { AuthContext } from "@/context/auth/AuthContext";
 import Logo from "@assets/poupe_dark.svg";
 import uxLogo from "@assets/uxLogo.svg";
-import { useState } from "react";
-import { Toaster } from "react-hot-toast";
+import { FormEvent, useContext, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { AuthForm } from "./components/AuthForm";
 
 export function AuthPage() {
-	const [isRegister, setIsRegister] = useState<boolean>(false);
+	const [isRegister, setIsRegister] = useState(false);
+	const [formData, setFormData] = useState({
+		name: "",
+		email: "",
+		password: "",
+	});
+	const { Login, Register } = useContext(AuthContext);
+
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		setFormData((prev) => ({ ...prev, [name]: value }));
+	};
+
+	const handleSubmit = async (e: FormEvent) => {
+		e.preventDefault();
+
+		const { name, email, password } = formData;
+		const action = isRegister
+			? Register({ name, email, password })
+			: Login({ email, password });
+
+		toast.promise(action, {
+			loading: isRegister ? "Registrando..." : "Logando...",
+			success: isRegister
+				? "Registrado com sucesso! Faça login para entrar"
+				: "Logado com sucesso!",
+			error: (err) => `Erro: ${err.message}`,
+		});
+
+		setFormData({ name: "", email: "", password: "" });
+	};
+
+	const toggleRegister = () => setIsRegister((prev) => !prev);
 
 	return (
 		<>
@@ -21,7 +54,13 @@ export function AuthPage() {
 						<h2 className="text-3xl text-[#858585] font-bold text-center">
 							Faça seu {isRegister ? "cadastro" : "login"}
 						</h2>
-						<AuthForm isRegister={isRegister} setIsRegister={setIsRegister} />
+						<AuthForm
+							isRegister={isRegister}
+							handleSubmit={handleSubmit}
+							formData={formData}
+							handleInputChange={handleInputChange}
+							toggleRegister={toggleRegister}
+						/>
 					</article>
 				</div>
 

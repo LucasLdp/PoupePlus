@@ -1,7 +1,14 @@
-import { User } from "#types/user-types";
+import { UserRequestTypes } from "#types/user-types";
 import { profile } from "@assets/icons";
 
-export function UserInfo({ name, balances, expenses }: User) {
+interface UserInfoProps {
+	user: UserRequestTypes;
+}
+export function UserInfo({ user }: UserInfoProps) {
+	const formattedTotalAmount = user.totalAmount
+		? Number(user.totalAmount).toFixed(2)
+		: "000,00";
+
 	return (
 		<div className="mt-8 rounded-lg shadow-lg border border-color-contorno p-4 flex flex-col sm:grid sm:grid-cols-3 gap-4 sm:gap-0">
 			{/* Saudações e Nome */}
@@ -15,16 +22,17 @@ export function UserInfo({ name, balances, expenses }: User) {
 					<p className="flex flex-col text-zinc-500 text-sm">
 						Boa Tarde
 						<span className="text-lg text-green-background font-semibold">
-							{name}
+							{user.name} !
 						</span>
 					</p>
 				</div>
-				{/* Saldo Geral */}
+
+				{/* Saldo Geral (Mobile) */}
 				<div className="flex justify-center items-center sm:hidden whitespace-nowrap">
 					<p className="flex flex-col text-right text-zinc-500 text-sm md:text-base">
 						Saldo Geral
 						<span className="text-xl md:text-2xl lg:text-4xl font-thin text-green-second">
-							R$<span className="font-semibold"> {balances?.totalAmount}</span>
+							R$<span className="font-semibold">{formattedTotalAmount}</span>
 						</span>
 					</p>
 				</div>
@@ -34,14 +42,14 @@ export function UserInfo({ name, balances, expenses }: User) {
 			<div className="flex justify-around sm:justify-center items-center gap-8 sm:gap-16 ">
 				<p className="flex flex-col text-nowrap text-zinc-400 text-xs md:text-base max-sm:text-left">
 					Receita Mensal
-					<span className="md:text-lg text-xs text-green-main  font-semibold">
-						+R$ {balances?.amount ?? "000,00"}
+					<span className="md:text-lg text-xs text-green-main font-semibold">
+						+R$ {"000,00"}
 					</span>
 				</p>
 				<p className="flex flex-col text-nowrap text-zinc-400 text-xs md:text-base max-sm:text-left sm:text-left">
 					Despesa Mensal
-					<span className="max-sm:text-xs md:text-lg  text-color-red font-semibold">
-						-R$ {expenses?.amount ?? "000,00"}
+					<span className="max-sm:text-xs md:text-lg text-color-red font-semibold">
+						-R$ {"000,00"}
 					</span>
 				</p>
 			</div>
@@ -51,7 +59,7 @@ export function UserInfo({ name, balances, expenses }: User) {
 				<p className="flex flex-col text-right text-zinc-500 text-sm md:text-base">
 					Saldo Geral
 					<span className="text-xl md:text-2xl lg:text-4xl font-thin text-green-second">
-						R$<span className="font-semibold"> 000,00</span>
+						R$<span className="font-semibold">{formattedTotalAmount}</span>
 					</span>
 				</p>
 			</div>

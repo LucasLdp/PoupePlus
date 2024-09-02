@@ -1,5 +1,7 @@
 export interface Balance {
-	name: string;
+	id: string;
+	userId: string;
 	amount: number;
-	totalAmount: number;
+	description: string;
+	createdAt: Date;
 }

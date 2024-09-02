@@ -10,14 +10,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@types/react-modal": "^3.16.3",
+    "apexcharts": "^3.53.0",
     "axios": "^1.7.5",
+    "date-fns": "^3.6.0",
+    "flowbite-react": "^0.10.1",
     "lucide-react": "^0.436.0",
     "react": "^18.3.1",
+    "react-apexcharts": "^1.4.1",
+    "react-currency-input-field": "^3.8.0",
     "react-dom": "^18.3.1",
     "react-hot-toast": "^2.4.1",
-    "react-modal": "^3.16.1",
-    "react-router-dom": "^6.26.0"
+    "react-router-dom": "^6.26.0",
+    "victory": "^37.1.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",

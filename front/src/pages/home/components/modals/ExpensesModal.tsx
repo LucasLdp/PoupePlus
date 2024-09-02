@@ -1,5 +1,7 @@
+import { api } from "@/services/api";
 import { close, credit } from "@assets/icons";
-import { ComponentProps } from "react";
+import { ChangeEvent, ComponentProps, FormEvent, useState } from "react";
+import { useParams } from "react-router-dom";
 import { SendButton } from "../SendButton";
 
 interface BalanceModalProps extends ComponentProps<"dialog"> {
@@ -8,6 +10,27 @@ interface BalanceModalProps extends ComponentProps<"dialog"> {
 }
 
 export function ExpensesModal({ isOpen, setIsOpen }: BalanceModalProps) {
+	const { id } = useParams();
+	const [formData, setFormData] = useState({
+		description: "",
+		amount: "",
+	});
+
+	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		setFormData({ ...formData, [name]: value });
+	};
+
+	const handleSubmit = async (e: FormEvent) => {
+		e.preventDefault();
+		try {
+			await api.post("expenses", { userId: id, ...formData });
+			setIsOpen(false);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<dialog
 			className={`${isOpen ? "block" : "hidden"} top-[20%] w-96 flex flex-col gap-4 items-center z-50 bg-transparent `}
@@ -22,24 +45,26 @@ export function ExpensesModal({ isOpen, setIsOpen }: BalanceModalProps) {
 				<span className="mt-10">Adicione uma despesa</span>
 				<form
 					action=""
+					onSubmit={handleSubmit}
 					className="flex flex-col gap-4 mt-4 items-center justify-center"
 				>
 					<input
 						type="text"
 						className="border border-color-contorno rounded-md h-14 w-full p-2"
 						placeholder="R$"
-					/>
-					<input
-						type="text"
-						className="border border-color-contorno rounded-md h-14 w-full p-2"
-						placeholder="Categoria"
+						value={formData.amount || ""}
+						onChange={handleInputChange}
+						name="amount"
 					/>
 					<input
 						type="text"
 						className="border border-color-contorno rounded-md h-14 p-2"
 						placeholder="Descrição"
+						value={formData.description || ""}
+						onChange={handleInputChange}
+						name="description"
 					/>
-					<SendButton type="button" />
+					<SendButton type="submit" />
 				</form>
 			</div>
 		</dialog>

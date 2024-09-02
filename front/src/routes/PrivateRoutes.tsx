@@ -1,6 +1,6 @@
 import { PropsWithChildren, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/Auth/AuthContext";
+import { AuthContext } from "../context/auth/AuthContext";
 
 type ProtectedRouteProps = PropsWithChildren;
 

@@ -8,7 +8,7 @@ interface CategoryInfoProps extends ComponentProps<"div"> {
 export function CategoryInfo({ title, isCategory }: CategoryInfoProps) {
 	return (
 		<div
-			className={`flex items-center gap-2  w-full h-24 max-sm:h-14 rounded-lg  ${isCategory ? "bg-color-light-green" : "bg-color-light-blue"}`}
+			className={`flex items-center gap-2 w-full h-24 max-sm:h-14 rounded-lg  ${isCategory ? "bg-color-light-green" : "bg-color-light-blue"}`}
 		>
 			<span
 				className={`text-color-blue md:ml-4 ${isCategory ? "text-green-main" : "text-color-blue"} text-5xl`}

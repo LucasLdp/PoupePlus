@@ -1,5 +1,5 @@
 import { chart, credit, settings } from "@assets/icons";
-import { AcessButton } from "./AcessButton";
+import { AcessButton } from "../AcessButton";
 
 interface QuickAccessProps {
 	openModalHandler: (modalId: string) => void;

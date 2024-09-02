@@ -1,47 +1,52 @@
+import { RegisterForm } from "@/types/form-types";
 import { ArrowRight } from "lucide-react";
-import React, { useState } from "react";
+import React, { FormEvent } from "react";
 
 interface AuthFormProps {
 	isRegister: boolean;
-	setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
+	handleSubmit: (e: FormEvent) => void;
+	formData: RegisterForm;
+	handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	toggleRegister: () => void;
 }
 
-export function AuthForm({ isRegister, setIsRegister }: AuthFormProps) {
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-
-	const handleSubmit = (event: React.FormEvent) => {
-		event.preventDefault();
-	};
-
+export function AuthForm({
+	isRegister,
+	handleSubmit,
+	formData,
+	handleInputChange,
+	toggleRegister,
+}: AuthFormProps) {
 	return (
 		<form className="flex flex-col w-full gap-6" onSubmit={handleSubmit}>
 			<fieldset className="flex flex-col gap-6">
 				{isRegister && (
 					<input
 						type="text"
-						className="bg-color-menta h-[35px] px-4 rounded"
+						name="name"
+						className="bg-color-menta h-[35px] px-4 rounded border-none"
 						placeholder="Nome"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
+						value={formData.name}
+						onChange={handleInputChange}
 						required
 					/>
 				)}
 				<input
 					type="email"
-					className="bg-color-menta h-[35px] px-4 rounded"
+					name="email"
+					className="bg-color-menta h-[35px] px-4 rounded border-none"
 					placeholder="Email"
-					value={email}
-					onChange={(e) => setEmail(e.target.value)}
+					value={formData.email}
+					onChange={handleInputChange}
 					required
 				/>
 				<input
 					type="password"
-					className="bg-color-menta h-[35px] px-4 rounded"
+					name="password"
+					className="bg-color-menta h-[35px] px-4 rounded border-none"
 					placeholder="Senha"
-					value={password}
-					onChange={(e) => setPassword(e.target.value)}
+					value={formData.password}
+					onChange={handleInputChange}
 					required
 				/>
 			</fieldset>
@@ -53,7 +58,7 @@ export function AuthForm({ isRegister, setIsRegister }: AuthFormProps) {
 				<ArrowRight />
 			</button>
 			<span
-				onClick={() => setIsRegister(!isRegister)}
+				onClick={toggleRegister}
 				className="text-zinc-600 text-center cursor-pointer hover:text-green-900 duration-75 transition-all border-green-600"
 			>
 				{isRegister ? "Já possui uma conta?" : "Ainda não possui uma conta?"}

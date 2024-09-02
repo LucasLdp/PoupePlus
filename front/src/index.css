@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
+body {
   font-family: Poppins !important;
+}
+
+/* Estilizando a barra de rolagem */
+.custom-scrollbar::-webkit-scrollbar {
+  margin-left: 2px;
+  width: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #e0e0e0;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #70ddad;
+  border-radius: 10px;
 }

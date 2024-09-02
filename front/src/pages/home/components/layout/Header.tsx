@@ -1,6 +1,6 @@
-import uxLogo from "@assets/uxlogo.svg";
-import poupe_white from "@assets/poupe_white.svg";
 import { logout } from "@assets/icons";
+import poupe_white from "@assets/poupe_white.svg";
+import uxLogo from "@assets/uxlogo.svg";
 
 export function Header() {
 	return (
