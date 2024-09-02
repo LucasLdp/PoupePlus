@@ -15,27 +15,28 @@ model User {
   password    String
   totalAmount Decimal?
   expenses    Expense[]
-  balance     Balance[]
+  balances    Balance[]
 
   @@map("users")
 }
 
 model Balance {
-  id        String   @id @default(uuid())
-  userId    String   @unique
-  total     Float
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
+  id          String   @id @default(uuid())
+  userId      String
+  amount      Decimal
+  description String
+  createdAt   DateTime @default(now())
+  user        User?    @relation(fields: [userId], references: [id])
 
   @@map("balances")
 }
 
 model Expense {
   id          String   @id @default(uuid())
-  amount      Float
+  amount      Decimal
   description String
   userId      String
-  user        User     @relation(fields: [userId], references: [id])
+  user        User?    @relation(fields: [userId], references: [id])
   createdAt   DateTime @default(now())
 
   @@map("expenses")

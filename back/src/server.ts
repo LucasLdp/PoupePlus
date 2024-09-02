@@ -1,8 +1,8 @@
-import "express-async-errors";
-import express from "express";
 import cors from "cors";
-import { route } from "./routes/main.route";
+import express from "express";
+import "express-async-errors";
 import { ErrorMiddleware } from "./middlewares/error.middleware";
+import { route } from "./routes/main.route";
 
 const server = express();
 

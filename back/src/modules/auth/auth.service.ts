@@ -1,10 +1,10 @@
+import { jwtHelper } from "@/utils/generate-token";
 import { UserRepository } from "@modules/user/user.repository";
 import { createUserDTO } from "@modules/user/userDTO";
 import { BadRequest, NotFound, Unauthorized } from "@utils/api-error";
 import { hasher } from "@utils/hasher";
-import { jwtHelper } from "@/utils/generate-token";
-import { signupAuthDTO, singinAuthDTO } from "./authDTO";
-import { loginSchema, registerSchema } from "./auth.schema";
+import { loginSchema, registerSchema } from "./auth.validator";
+import { singinAuthDTO } from "./authDTO";
 
 export class AuthService {
 	constructor(private userRepository: UserRepository) {}

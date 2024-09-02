@@ -13,7 +13,8 @@ CREATE TABLE "users" (
 CREATE TABLE "balances" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "total" DOUBLE PRECISION NOT NULL,
+    "amount" DECIMAL(65,30) NOT NULL,
+    "description" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "balances_pkey" PRIMARY KEY ("id")
@@ -22,7 +23,7 @@ CREATE TABLE "balances" (
 -- CreateTable
 CREATE TABLE "expenses" (
     "id" TEXT NOT NULL,
-    "amount" DOUBLE PRECISION NOT NULL,
+    "amount" DECIMAL(65,30) NOT NULL,
     "description" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

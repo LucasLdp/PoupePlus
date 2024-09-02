@@ -1,7 +1,7 @@
 export interface createExpenseDTO {
+	userId: string;
 	amount: number;
 	description: string;
-	userId: string;
 }
 
 export interface updateExpenseDTO extends Partial<createExpenseDTO> {}

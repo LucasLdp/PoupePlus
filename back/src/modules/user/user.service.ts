@@ -1,8 +1,7 @@
+import { BadRequest, NotFound } from "@/utils/api-error";
+import { hasher } from "@/utils/hasher";
 import { UserRepository } from "modules/user/user.repository";
 import { createUserDTO, updateUserDTO } from "modules/user/userDTO";
-
-import { hasher } from "@/utils/hasher";
-import { BadRequest, NotFound } from "@/utils/api-error";
 
 export class UserService {
 	constructor(private userRepository: UserRepository) {}
@@ -24,7 +23,14 @@ export class UserService {
 		if (!user) {
 			throw new NotFound("Usuário não encontrado");
 		}
-		return user;
+		return {
+			id: user.id,
+			name: user.name,
+			email: user.email,
+			totalAmount: user.totalAmount,
+			balances: user.balances,
+			expenses: user.expenses,
+		};
 	};
 
 	createUser = async (data: createUserDTO) => {

@@ -1,5 +1,5 @@
-const SECRET = process.env.SECRET_KEY;
 import jwt from "jsonwebtoken";
+const SECRET = process.env.SECRET_KEY;
 
 export const jwtHelper = {
 	generateToken: (id: string) => {

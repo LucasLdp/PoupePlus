@@ -1,5 +1,5 @@
 import { Expense, PrismaClient } from "@prisma/client";
-import { createExpenseDTO, updateExpenseDTO } from "@dtos/expenseDTO";
+import { createExpenseDTO, updateExpenseDTO } from "./expenseDTO";
 
 export class ExpenseRepository {
 	constructor(private prisma: PrismaClient) {}

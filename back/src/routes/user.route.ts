@@ -1,8 +1,8 @@
+import { UserService } from "@/modules/user/user.service";
 import { Router } from "express";
 import { UserController } from "modules/user/user.controller";
 import { UserRepository } from "modules/user/user.repository";
 import { prisma } from "../prisma/prisma";
-import { UserService } from "@/modules/user/user.service";
 
 const route = Router();
 

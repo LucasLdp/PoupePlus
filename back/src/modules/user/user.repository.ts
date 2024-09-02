@@ -8,23 +8,35 @@ export class UserRepository {
 		return await this.prisma.user.findMany();
 	};
 
-	getBy = async (params: Partial<User>): Promise<User | null> => {
-		return await this.prisma.user.findFirst({ where: params });
+	getBy = async (params: Partial<User>) => {
+		return await this.prisma.user.findFirst({
+			where: params,
+			include: {
+				expenses: true,
+				balances: true,
+			},
+		});
 	};
 
-	getOne = async (id: string): Promise<User | null> => {
-		return await this.prisma.user.findUnique({ where: { id } });
+	getOne = async (id: string) => {
+		return await this.prisma.user.findUnique({
+			where: { id },
+			include: {
+				expenses: true,
+				balances: true,
+			},
+		});
 	};
 
-	create = async (data: createUserDTO): Promise<User> => {
+	create = async (data: createUserDTO) => {
 		return await this.prisma.user.create({ data });
 	};
 
-	update = async (id: string, data: updateUserDTO): Promise<User> => {
+	update = async (id: string, data: updateUserDTO) => {
 		return await this.prisma.user.update({ where: { id }, data });
 	};
 
-	destroy = async (id: string): Promise<User> => {
+	destroy = async (id: string) => {
 		return await this.prisma.user.delete({ where: { id } });
 	};
 }
