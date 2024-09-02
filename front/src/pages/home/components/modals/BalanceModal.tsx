@@ -41,7 +41,6 @@ export function BalanceModal({ isOpen, setIsOpen }: BalanceModalProps) {
 				>
 					<CurrencyInput
 						className="border border-color-contorno rounded-md h-14 w-full p-2"
-						defaultValue={0}
 						prefix="R$ "
 						placeholder="R$ 0,00"
 						decimalScale={2}

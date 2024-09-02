@@ -3,6 +3,7 @@ import { close, credit } from "@assets/icons";
 import { ChangeEvent, ComponentProps, FormEvent, useState } from "react";
 import { useParams } from "react-router-dom";
 import { SendButton } from "../SendButton";
+import CurrencyInput from "react-currency-input-field";
 
 interface BalanceModalProps extends ComponentProps<"dialog"> {
 	isOpen?: boolean;
@@ -10,26 +11,20 @@ interface BalanceModalProps extends ComponentProps<"dialog"> {
 }
 
 export function ExpensesModal({ isOpen, setIsOpen }: BalanceModalProps) {
-	const { id } = useParams();
-	const [formData, setFormData] = useState({
-		description: "",
-		amount: "",
-	});
-
-	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = e.target;
-		setFormData({ ...formData, [name]: value });
-	};
+	const { id: userId } = useParams();
+	const [amount, setAmount] = useState(0);
+	const [description, setDescription] = useState("");
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 		try {
-			await api.post("expenses", { userId: id, ...formData });
+			await api.post("expenses", { userId, amount, description });
 			setIsOpen(false);
 		} catch (error) {
 			console.log(error);
 		}
 	};
+
 
 	return (
 		<dialog
@@ -48,20 +43,21 @@ export function ExpensesModal({ isOpen, setIsOpen }: BalanceModalProps) {
 					onSubmit={handleSubmit}
 					className="flex flex-col gap-4 mt-4 items-center justify-center"
 				>
-					<input
-						type="text"
+					<CurrencyInput
 						className="border border-color-contorno rounded-md h-14 w-full p-2"
-						placeholder="R$"
-						value={formData.amount || ""}
-						onChange={handleInputChange}
+						prefix="R$ "
+						placeholder="R$ 0,00"
+						decimalScale={2}
+						decimalsLimit={2}
+						onValueChange={(_value, _name, values) => setAmount(values?.float!)}
 						name="amount"
 					/>
 					<input
 						type="text"
 						className="border border-color-contorno rounded-md h-14 p-2"
 						placeholder="Descrição"
-						value={formData.description || ""}
-						onChange={handleInputChange}
+						value={description}
+						onChange={(e) => setDescription(e.target.value)}
 						name="description"
 					/>
 					<SendButton type="submit" />

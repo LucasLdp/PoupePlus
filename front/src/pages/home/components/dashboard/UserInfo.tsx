@@ -3,8 +3,10 @@ import { profile } from "@assets/icons";
 
 interface UserInfoProps {
 	user: UserRequestTypes;
+	maxBalance: number;
+	maxExpense: number;
 }
-export function UserInfo({ user }: UserInfoProps) {
+export function UserInfo({ user, maxBalance, maxExpense}: UserInfoProps) {
 	const formattedTotalAmount = user.totalAmount
 		? Number(user.totalAmount).toFixed(2)
 		: "000,00";
@@ -43,13 +45,13 @@ export function UserInfo({ user }: UserInfoProps) {
 				<p className="flex flex-col text-nowrap text-zinc-400 text-xs md:text-base max-sm:text-left">
 					Receita Mensal
 					<span className="md:text-lg text-xs text-green-main font-semibold">
-						+R$ {"000,00"}
+						+R$ {maxBalance >= 0 ? maxBalance.toFixed(2) : '00,00'}  
 					</span>
 				</p>
 				<p className="flex flex-col text-nowrap text-zinc-400 text-xs md:text-base max-sm:text-left sm:text-left">
 					Despesa Mensal
 					<span className="max-sm:text-xs md:text-lg text-color-red font-semibold">
-						-R$ {"000,00"}
+						-R$ {maxExpense >= 0 ? maxExpense.toFixed(2) : '00,00'}
 					</span>
 				</p>
 			</div>
