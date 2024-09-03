@@ -61,4 +61,13 @@ export class UserService {
 		await this.userRepository.destroy(id);
 		return { message: "Usuário deletado com sucesso" };
 	};
+
+	resetUser = async (id: string) => {
+		const user = await this.userRepository.getOne(id);
+		if (!user) {
+			throw new NotFound("Usuário não encontrado");
+		}
+		await this.userRepository.resetAndDeleteRelations(id);
+		return { message: "Usuário resetado com sucesso" };
+	};
 }

@@ -39,4 +39,24 @@ export class UserRepository {
 	destroy = async (id: string) => {
 		return await this.prisma.user.delete({ where: { id } });
 	};
+
+	resetAndDeleteRelations = async (id: string) => {
+		await this.prisma.$transaction(async (prisma) => {
+			await prisma.user.update({
+				where: { id },
+				data: {
+					name: "",
+					totalAmount: 0,
+				},
+			});
+
+			await prisma.expense.deleteMany({
+				where: { userId: id },
+			});
+
+			await prisma.balance.deleteMany({
+				where: { userId: id },
+			});
+		});
+	};
 }

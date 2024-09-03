@@ -13,6 +13,7 @@ const userController = new UserController(userService);
 route.get("/", userController.index);
 route.get("/:id", userController.show);
 route.post("/", userController.store);
+route.post("/reset/:id", userController.resetAndDeleteRelations);
 route.put("/:id", userController.update);
 route.delete("/:id", userController.destroy);
 

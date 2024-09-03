@@ -33,4 +33,10 @@ export class UserController {
 		const result = await this.userService.deleteUser(id);
 		return res.json(result);
 	};
+
+	resetAndDeleteRelations = async (req: Request, res: Response) => {
+		const { id } = req.params;
+		const result = await this.userService.resetUser(id);
+		return res.json(result);
+	};
 }
