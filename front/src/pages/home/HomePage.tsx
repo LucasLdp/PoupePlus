@@ -11,10 +11,10 @@ import { Footer } from "./components/layout/Footer";
 
 export function HomePage() {
 	const { id } = useParams<string>();
-	const [user, setUser] = useState<UserRequestTypes | null>(null); 
+	const [user, setUser] = useState<UserRequestTypes | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [openModal, setOpenModal] = useState<string | null>(null);
-	const {maxBalance, maxExpense} = useChartData(user!);
+	const { maxBalance, maxExpense } = useChartData(user!);
 
 	const fetchUser = async () => {
 		try {

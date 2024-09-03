@@ -8,8 +8,7 @@ interface BalanceModalProps extends ComponentProps<"dialog"> {
 	user: UserRequestTypes;
 }
 
-export function ChartModal({ isOpen, setIsOpen, user}: BalanceModalProps) {
-
+export function ChartModal({ isOpen, setIsOpen, user }: BalanceModalProps) {
 	const [transactions, setTransactions] = useState<any[]>([]);
 
 	useEffect(() => {
@@ -36,7 +35,6 @@ export function ChartModal({ isOpen, setIsOpen, user}: BalanceModalProps) {
 		}
 	}, [user]);
 
-
 	return (
 		<dialog
 			className={`${isOpen ? "block" : "hidden"} top-1/4 w-96 flex flex-col gap-4 items-center z-50 bg-transparent `}
@@ -47,21 +45,31 @@ export function ChartModal({ isOpen, setIsOpen, user}: BalanceModalProps) {
 			>
 				<img src={isOpen ? close : credit} />
 			</div>
-				<div className="flex flex-col items-center text-zinc-400  w-full bg-color-menta rounded-lg h-72">
-					<span className="mt-10 text-xl text-green-background">Extrato da conta</span>
+			<div className="flex flex-col items-center text-zinc-400  w-full bg-color-menta rounded-lg h-72">
+				<span className="mt-10 text-xl text-green-background">
+					Extrato da conta
+				</span>
 				<div className="flex flex-col p-8 w-full justify-between">
 					{transactions.map((transaction) => (
-							<li
-								key={transaction.id}
-								className="flex justify-between  items-center  h-12 border-b border-color-light-green"
-							>
-								<p className="flex gap-6">
-									<span className={transaction.type === "Receita" ? "text-green-background" : "text-red-background"}>&#9679;</span>
-									<span>{transaction.description}</span>
-								</p>
-								<span>R$ {Number(transaction.amount).toFixed(2)}</span>
-							</li>
-						))}
+						<li
+							key={transaction.id}
+							className="flex justify-between  items-center  h-12 border-b border-color-light-green"
+						>
+							<p className="flex gap-6">
+								<span
+									className={
+										transaction.type === "Receita"
+											? "text-green-background"
+											: "text-red-background"
+									}
+								>
+									&#9679;
+								</span>
+								<span>{transaction.description}</span>
+							</p>
+							<span>R$ {Number(transaction.amount).toFixed(2)}</span>
+						</li>
+					))}
 				</div>
 			</div>
 		</dialog>
