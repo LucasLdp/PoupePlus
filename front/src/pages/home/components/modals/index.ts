@@ -1,4 +1,4 @@
 export * from "./BalanceModal";
-export * from "./ChartModal";
+export * from "./ExtractModal";
 export * from "./ExpensesModal";
 export * from "./SettingsModal";

@@ -12,7 +12,6 @@ interface FinanceTableProps {
 export function FinanceTable({ user }: FinanceTableProps) {
 	const [transactions, setTransactions] = useState<any[]>([]);
 
-	// Atualiza as transações quando o user muda
 	useEffect(() => {
 		if (user) {
 			const updatedTransactions = [

@@ -6,7 +6,6 @@ export interface UserRequestTypes {
 	totalAmount: number | null;
 }
 
-
 interface Expense {
 	id: string;
 	userId: string;
@@ -14,7 +13,6 @@ interface Expense {
 	description: string;
 	createdAt: Date;
 }
-
 
 export interface Balance {
 	id: string;

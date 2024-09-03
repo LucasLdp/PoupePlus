@@ -1,7 +1,8 @@
 import { useChartData } from "@/hooks/useChartData";
-import { useFetchUser } from "@/hooks/useFetchUser";
+import { api } from "@/services/api";
+import { UserRequestTypes } from "@/types/user-request";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { FinanceActions, Header, ModalManager, UserInfo } from "./components";
 import { LoadingScreen } from "./components/LoadingScreen";
 import { ExpensesList } from "./components/dashboard/ExpensesList";
@@ -10,35 +11,34 @@ import { Footer } from "./components/layout/Footer";
 
 export function HomePage() {
 	const { id } = useParams<string>();
-	const navigate = useNavigate(); // Importa o hook useNavigate
-	const [shouldRefetch, setShouldRefetch] = useState(false);
-	const { user, isLoading } = useFetchUser(id!);
-	const { maxBalance, maxExpense } = useChartData(user!);
+	const [user, setUser] = useState<UserRequestTypes | null>(null); 
+	const [isLoading, setIsLoading] = useState(true);
 	const [openModal, setOpenModal] = useState<string | null>(null);
+	const {maxBalance, maxExpense} = useChartData(user!);
+
+	const fetchUser = async () => {
+		try {
+			const response = await api.get(`/users/${id}`);
+			setUser(response.data);
+		} catch (error) {
+			console.error("Erro ao buscar o usuário:", error);
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
 	useEffect(() => {
-		if (shouldRefetch) {
-			setShouldRefetch(false);
-		}
-	}, [user]);
-
-	useEffect(() => {
-		if (!user) {
-			navigate("*");
-		}
-	}, [isLoading, user, navigate]);
+		fetchUser();
+	}, [id, openModal]);
 
 	return isLoading ? (
 		<LoadingScreen />
 	) : (
 		<>
 			<ModalManager
-				closeModalHandler={() => {
-					setOpenModal(null);
-					setShouldRefetch(true);
-				}}
+				closeModalHandler={() => setOpenModal(null)}
 				openModal={openModal}
-				user={user}
+				user={user!}
 			/>
 
 			<div
@@ -50,14 +50,14 @@ export function HomePage() {
 					<UserInfo
 						maxBalance={maxBalance}
 						maxExpense={maxExpense}
-						user={user}
+						user={user!}
 					/>
 					<div className="md:grid md:grid-cols-[1fr_2fr] sm:flex mt-8 gap-10">
 						<div className="flex flex-col justify-around gap-8">
 							<FinanceActions openModalHandler={setOpenModal} />
-							<ExpensesList expenses={user.expenses} />
+							<ExpensesList expenses={user!.expenses} />
 						</div>
-						<FinanceViewer user={user} />
+						<FinanceViewer user={user!} />
 					</div>
 				</main>
 

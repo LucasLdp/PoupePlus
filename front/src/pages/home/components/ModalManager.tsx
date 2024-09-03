@@ -29,7 +29,7 @@ export function ModalManager({
 				<SettingModal user={user} isOpen={true} setIsOpen={closeModalHandler} />
 			)}
 			{openModal === "chart" && (
-				<ChartModal isOpen={true} setIsOpen={closeModalHandler} />
+				<ChartModal user={user} isOpen={true} setIsOpen={closeModalHandler} />
 			)}
 		</>
 	);
