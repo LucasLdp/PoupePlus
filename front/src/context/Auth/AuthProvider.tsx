@@ -2,7 +2,7 @@ import { api } from "@/services/api";
 import { AxiosError } from "axios";
 import { ReactNode, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoginForm, RegisterForm } from "../../types/form-types";
+import { LoginForm, RegisterForm } from "../../types/form-data";
 import { AuthContext } from "./AuthContext";
 
 interface AuthProviderProps {

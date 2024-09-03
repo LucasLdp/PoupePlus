@@ -1,4 +1,4 @@
-import { UserRequestTypes } from "#types/user-types";
+import { UserRequestTypes } from "@/types/user-request";
 import { profile } from "@assets/icons";
 
 interface UserInfoProps {
@@ -6,9 +6,41 @@ interface UserInfoProps {
 	maxBalance: number;
 	maxExpense: number;
 }
-export function UserInfo({ user, maxBalance, maxExpense}: UserInfoProps) {
+
+function getCurrentMonthTotals(user: UserRequestTypes) {
+	const currentMonth = new Date().getMonth();
+	const currentYear = new Date().getFullYear();
+
+	// Filtra e soma os balances do mês atual
+	const totalBalances =
+		user.balances
+			?.filter(
+				(balance) =>
+					new Date(balance.createdAt).getMonth() === currentMonth &&
+					new Date(balance.createdAt).getFullYear() === currentYear,
+			)
+			.reduce((sum, balance) => sum + Number(balance.amount), 0) || 0;
+
+	const totalExpenses =
+		user.expenses
+			?.filter(
+				(expense) =>
+					new Date(expense.createdAt).getMonth() === currentMonth &&
+					new Date(expense.createdAt).getFullYear() === currentYear,
+			)
+			.reduce((sum, expense) => sum + Number(expense.amount), 0) || 0;
+
+	return {
+		totalBalances,
+		totalExpenses,
+	};
+}
+
+export function UserInfo({ user }: UserInfoProps) {
+	const { totalBalances, totalExpenses } = getCurrentMonthTotals(user);
+
 	const formattedTotalAmount = user.totalAmount
-		? Number(user.totalAmount).toFixed(2)
+		? (Number(user.totalAmount) + totalBalances - totalExpenses).toFixed(2)
 		: "000,00";
 
 	return (
@@ -24,7 +56,7 @@ export function UserInfo({ user, maxBalance, maxExpense}: UserInfoProps) {
 					<p className="flex flex-col text-zinc-500 text-sm">
 						Boa Tarde
 						<span className="text-lg text-green-background font-semibold">
-							{user.name} !
+							{user?.name} !
 						</span>
 					</p>
 				</div>
@@ -45,13 +77,13 @@ export function UserInfo({ user, maxBalance, maxExpense}: UserInfoProps) {
 				<p className="flex flex-col text-nowrap text-zinc-400 text-xs md:text-base max-sm:text-left">
 					Receita Mensal
 					<span className="md:text-lg text-xs text-green-main font-semibold">
-						+R$ {maxBalance >= 0 ? maxBalance.toFixed(2) : '00,00'}  
+						+R$ {totalBalances.toFixed(2)}
 					</span>
 				</p>
 				<p className="flex flex-col text-nowrap text-zinc-400 text-xs md:text-base max-sm:text-left sm:text-left">
 					Despesa Mensal
 					<span className="max-sm:text-xs md:text-lg text-color-red font-semibold">
-						-R$ {maxExpense >= 0 ? maxExpense.toFixed(2) : '00,00'}
+						-R$ {totalExpenses.toFixed(2)}
 					</span>
 				</p>
 			</div>

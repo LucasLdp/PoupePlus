@@ -1,11 +1,11 @@
 import { chart, credit, settings } from "@assets/icons";
-import { AcessButton } from "../AcessButton";
+import { AcessButton } from "./FinanceButton";
 
 interface QuickAccessProps {
 	openModalHandler: (modalId: string) => void;
 }
 
-export function QuickAccess({ openModalHandler }: QuickAccessProps) {
+export function FinanceActions({ openModalHandler }: QuickAccessProps) {
 	return (
 		<article className="w-full border border-color-contorno rounded-lg p-6">
 			<span className="text-zinc-400">Acesso Rápido</span>

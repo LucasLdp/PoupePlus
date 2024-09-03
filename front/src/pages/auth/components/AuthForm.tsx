@@ -1,4 +1,4 @@
-import { RegisterForm } from "@/types/form-types";
+import { RegisterForm } from "@/types/form-data";
 import { ArrowRight } from "lucide-react";
 import React, { FormEvent } from "react";
 

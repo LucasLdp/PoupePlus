@@ -1,3 +1,4 @@
+import { UserRequestTypes } from "@/types/user-request";
 import {
 	BalanceModal,
 	ChartModal,
@@ -8,11 +9,13 @@ import {
 interface ModalManagerProps {
 	openModal: string | null;
 	closeModalHandler: () => void;
+	user: UserRequestTypes;
 }
 
 export function ModalManager({
 	openModal,
 	closeModalHandler,
+	user,
 }: ModalManagerProps) {
 	return (
 		<>
@@ -23,7 +26,7 @@ export function ModalManager({
 				<ExpensesModal isOpen={true} setIsOpen={closeModalHandler} />
 			)}
 			{openModal === "settings" && (
-				<SettingModal isOpen={true} setIsOpen={closeModalHandler} />
+				<SettingModal user={user} isOpen={true} setIsOpen={closeModalHandler} />
 			)}
 			{openModal === "chart" && (
 				<ChartModal isOpen={true} setIsOpen={closeModalHandler} />

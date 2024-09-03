@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { LoginForm, RegisterForm } from "../../types/form-types";
+import { LoginForm, RegisterForm } from "../../types/form-data";
 
 interface AuthContextStates {
 	isAuthenticated: boolean;

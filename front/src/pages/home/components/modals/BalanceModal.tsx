@@ -17,7 +17,6 @@ export function BalanceModal({ isOpen, setIsOpen }: BalanceModalProps) {
 	const [description, setDescription] = useState("");
 
 	const handleSubmit = async (e: FormEvent) => {
-		e.preventDefault();
 		try {
 			await api.post("balances", { userId, amount, description });
 			setIsOpen(false);

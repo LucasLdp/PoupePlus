@@ -1,9 +1,9 @@
 import { api } from "@/services/api";
 import { close, credit } from "@assets/icons";
-import { ChangeEvent, ComponentProps, FormEvent, useState } from "react";
+import { ComponentProps, FormEvent, useState } from "react";
+import CurrencyInput from "react-currency-input-field";
 import { useParams } from "react-router-dom";
 import { SendButton } from "../SendButton";
-import CurrencyInput from "react-currency-input-field";
 
 interface BalanceModalProps extends ComponentProps<"dialog"> {
 	isOpen?: boolean;
@@ -16,7 +16,6 @@ export function ExpensesModal({ isOpen, setIsOpen }: BalanceModalProps) {
 	const [description, setDescription] = useState("");
 
 	const handleSubmit = async (e: FormEvent) => {
-		e.preventDefault();
 		try {
 			await api.post("expenses", { userId, amount, description });
 			setIsOpen(false);
@@ -24,7 +23,6 @@ export function ExpensesModal({ isOpen, setIsOpen }: BalanceModalProps) {
 			console.log(error);
 		}
 	};
-
 
 	return (
 		<dialog

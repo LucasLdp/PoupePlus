@@ -1,30 +1,44 @@
 import { api } from "@/services/api";
+import { UserRequestTypes } from "@/types/user-request";
 import { close, credit } from "@assets/icons";
-import { ChangeEvent, FormEvent, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useState } from "react";
+import CurrencyInput from "react-currency-input-field";
+import { useNavigate, useParams } from "react-router-dom";
 import { SendButton } from "../SendButton";
 
 interface BalanceModalProps {
 	isOpen?: boolean;
 	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	user: UserRequestTypes;
 }
 
-export function SettingModal({ isOpen, setIsOpen }: BalanceModalProps) {
-	const [formData, setFormData] = useState({
-		name: "",
-		totalAmount: "",
-	});
+export function SettingModal({ isOpen, setIsOpen, user }: BalanceModalProps) {
+	const [name, setName] = useState(user.name);
+	const [totalAmount, setTotalAmount] = useState(user.totalAmount);
+	const navigate = useNavigate();
 	const { id } = useParams();
 
-	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = e.target;
-		setFormData({ ...formData, [name]: value });
+	const handleSetInformation = async () => {
+		try {
+			await api.put(`/users/${id}`, { name, totalAmount });
+			setIsOpen(false);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
-	const handleSubmit = async (e: FormEvent) => {
-		e.preventDefault();
+	const handleDeleteAccount = async () => {
 		try {
-			await api.put(`users/${id}`, formData);
+			await api.delete(`/users/${id}`);
+			navigate("/");
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const handleReset = async () => {
+		try {
+			await api.post(`/users/reset/${id}`);
 			setIsOpen(false);
 		} catch (error) {
 			console.log(error);
@@ -44,7 +58,7 @@ export function SettingModal({ isOpen, setIsOpen }: BalanceModalProps) {
 			<div className="flex flex-col items-center w-full text-zinc-400  bg-color-menta rounded-lg h-full p-4">
 				<span className="mt-10">Configure sua conta</span>
 				<form
-					onSubmit={handleSubmit}
+					onSubmit={handleSetInformation}
 					className="flex flex-col gap-4 mt-4 items-center justify-center"
 				>
 					<label htmlFor="" className="flex flex-col gap-2">
@@ -54,25 +68,31 @@ export function SettingModal({ isOpen, setIsOpen }: BalanceModalProps) {
 							name="name"
 							className="border border-color-contorno rounded-md h-14 w-full p-2"
 							placeholder="Digite seu nome"
-							value={formData.name}
-							onChange={handleInputChange}
+							onChange={(e) => setName(e.target.value)}
 						/>
 					</label>
 					<label htmlFor="" className="flex flex-col">
 						Renda Mensal
-						<input
-							type="text"
-							name="totalAmount"
-							className="border border-color-contorno rounded-md h-14 p-2"
-							placeholder="R$ 000.000,00"
-							value={formData.totalAmount}
-							onChange={handleInputChange}
+						<CurrencyInput
+							className="border border-color-contorno rounded-md h-14 w-full p-2"
+							prefix="R$ "
+							decimalScale={2}
+							placeholder="Digite sua renda"
+							decimalsLimit={2}
+							onValueChange={(_value, _name, values) =>
+								setTotalAmount(values?.float!)
+							}
+							name="amount"
 						/>
 					</label>
 
 					<SendButton type="submit" />
-					<button className="text-color-red">Apagar conta</button>
-					<button className="text-color-blue">Redefinir Conta</button>
+					<button onClick={handleDeleteAccount} className="text-color-red">
+						Apagar conta
+					</button>
+					<button onClick={handleReset} className="text-color-blue">
+						Redefinir Conta
+					</button>
 				</form>
 			</div>
 		</dialog>

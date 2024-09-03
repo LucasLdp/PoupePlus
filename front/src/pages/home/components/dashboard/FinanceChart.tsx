@@ -1,12 +1,15 @@
+import { useChartData } from "@/hooks/useChartData";
+import { UserRequestTypes } from "@/types/user-request";
 import { ApexOptions } from "apexcharts";
 import Chart from "react-apexcharts";
 
 interface FinanceChartProps {
-	maxBalance: number;
-	maxExpense: number;
+	user: UserRequestTypes;
 }
 
-export function FinanceChart({ maxBalance, maxExpense }: FinanceChartProps) {
+export function FinanceChart({ user }: FinanceChartProps) {
+	const { maxBalance, maxExpense } = useChartData(user);
+
 	const options: ApexOptions = {
 		chart: {
 			id: "balance-expense-pie-chart",
@@ -15,6 +18,7 @@ export function FinanceChart({ maxBalance, maxExpense }: FinanceChartProps) {
 		labels: ["Maior saldo mensal", "Maior despesa mensal"],
 		colors: ["#49c668", "#ec8a94"],
 	};
+
 	const series = [maxBalance, maxExpense];
 
 	return (
